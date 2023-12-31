@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Page</title>
+    <!-- <script src="./login.js"></script> -->
+</head>
+
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="name">Username:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="passwd">Password:</label>
+        <input type="password" id="passwd" name="passwd" required><br><br>
+
+        <label for="rePasswd">Confirm Password:</label>
+        <input type="password" id="rePasswd" name="rePasswd" required><br><br>
+
+        <input type="submit" value="Login">
+    </form>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const formData = new FormData();
+            formData.append("name", "阿库亚");
+            formData.append("passwd", "123");
+            formData.append("rePasswd", "123");
+            const request = new Request("http://localhost:8080/user/CreateUser", {
+                method: "POST",
+                body: formData,
+            });
+
+            fetch(request)
+                .then((response) => {
+                    if (response.status === 200) {
+
+                        console.log(response)
+                        console.log(response.json())
+                        return
+                        // return response.json();
+                    } else {
+                        throw new Error("Something went wrong on API server!");
+                    }
+                })
+                .then((response) => {
+                    console.debug(response);
+                    // Handle successful login response here
+                })
+                .catch((error) => {
+                    console.error(error);
+                    // Handle error here
+                });
+        });
+    </script>
+</body>
+
+</html>
